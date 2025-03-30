@@ -33,31 +33,45 @@ local autosnippet = ls.extend_decorator.apply(s, { snippetType = "autosnippet" }
 -- personal imports
 --]
 local tex = require("luasnip-latex-snippets.luasnippets.tex.utils.conditions")
-local single_command_snippet = require("luasnip-latex-snippets.luasnippets.tex.utils.scaffolding").single_command_snippet
+local single_command_snippet =
+	require("luasnip-latex-snippets.luasnippets.tex.utils.scaffolding").single_command_snippet
 local reference_snippet_table = {
-    a = "auto",
-    c = "c",
-    C = "C",
-    e = "eq",
-    r = ""
+	a = "auto",
+	c = "c",
+	C = "C",
+	e = "eq",
+	r = "",
 }
 
 M = {
-    autosnippet({ trig='alab', name='label', dscr='add a label'},
-    fmta([[
+	autosnippet(
+		{ trig = "alab", name = "label", dscr = "add a label" },
+		fmta(
+			[[
     \label{<>:<>}<>
     ]],
-    { i(1), i(2), i(0) })),
+			{ i(1), i(2), i(0) }
+		)
+	),
 
-    autosnippet({ trig='([acCer])ref', name='(acC|eq)?ref', dscr='add a reference (with autoref, cref, eqref)', trigEngine = "pattern", hidden = true},
-    fmta([[
-    \<>ref{<>:<>}<>
+	autosnippet(
+		{
+			trig = "([acCer])ref",
+			name = "(acC|eq)?ref",
+			dscr = "add a reference (with autoref, cref, eqref)",
+			trigEngine = "pattern",
+			hidden = true,
+		},
+		fmta(
+			[[
+    \<>ref{<>}<>
     ]],
-    { f(function (_, snip)
-        return reference_snippet_table[snip.captures[1]]
-    end),
-    i(1), i(2), i(0) }),
-    { condition = tex.in_text, show_condition = tex.in_text }),
+			{ f(function(_, snip)
+				return reference_snippet_table[snip.captures[1]]
+			end), i(1), i(0) }
+		),
+		{ condition = tex.in_text, show_condition = tex.in_text }
+	),
 }
 
 local single_command_specs = {
@@ -65,21 +79,21 @@ local single_command_specs = {
 		context = {
 			name = "section",
 			dscr = "section",
-            priority = 250,
+			priority = 250,
 		},
 		command = [[\section]],
 		ext = { label = true, short = "sec" },
 	},
-    ssec = {
+	ssec = {
 		context = {
 			name = "subsection",
 			dscr = "subsection",
-            priority = 500
+			priority = 500,
 		},
 		command = [[\subsection]],
 		ext = { label = true, short = "subsec" },
 	},
-    sssec = {
+	sssec = {
 		context = {
 			name = "subsubsection",
 			dscr = "subsubsection",
@@ -91,21 +105,21 @@ local single_command_specs = {
 		context = {
 			name = "section*",
 			dscr = "section*",
-            priority = 250,
+			priority = 250,
 		},
 		command = [[\section*]],
 		ext = { label = true, short = "sec" },
 	},
-    ["ssec*"] = {
+	["ssec*"] = {
 		context = {
 			name = "subsection*",
 			dscr = "subsection*",
-            priority = 500
+			priority = 500,
 		},
 		command = [[\subsection*]],
 		ext = { label = true, short = "subsec" },
 	},
-    ["sssec*"] = {
+	["sssec*"] = {
 		context = {
 			name = "subsubsection*",
 			dscr = "subsubsection*",
@@ -144,7 +158,7 @@ local single_command_specs = {
 		},
 		command = [[\textit]],
 	},
-    ttt = {
+	ttt = {
 		context = {
 			name = "texttt",
 			dscr = "monospace text",
@@ -177,13 +191,13 @@ local single_command_specs = {
 		},
 		command = [[\overline]],
 	},
-    bct = {
-        context = {
-            name = "cite",
-            dscr = "bibtex cite",
-        },
-        command = [[\cite]],
-    },
+	bct = {
+		context = {
+			name = "cite",
+			dscr = "bibtex cite",
+		},
+		command = [[\cite]],
+	},
 }
 
 local single_command_snippets = {}
